@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Card from "../../components/Card/Card";
 import FormGroup from "../../components/FormGroup/FormGroup";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -10,12 +11,21 @@ export default function Login() {
 
   const login = (e) => {
     e.preventDefault();
-    navigate("/financas");
+
+    axios.post('http://localhost:8080/api/usuarios/autenticar', {
+      email: email,
+      senha: password
+    }).then(response => {
+      console.log(response)
+      navigate("/home");
+    }).catch(erro => {
+      console.log(erro.response)
+    })
   };
 
   const handleClick = (e) => {
     e.preventDefault();
-    navigate("/cadastrar");
+    navigate("/usuarios");
   };
 
   return (
