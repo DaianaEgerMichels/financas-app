@@ -1,19 +1,24 @@
 import React, { useState } from "react";
 import Card from "../../components/Card/Card";
 import FormGroup from "../../components/FormGroup/FormGroup";
+import { useNavigate } from "react-router";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-const [email, setEmail] = useState('');
-const [password, setPassword] = useState('');
+  const login = (e) => {
+    e.preventDefault();
+    navigate("/financas");
+  };
 
-const login = ()=>{
-  console.log("Entrei aqui")
-  console.log(email)
-  console.log(password)
-}
+  const handleClick = (e) => {
+    e.preventDefault();
+    navigate("/cadastrar");
+  };
+
   return (
-    <div className="container">
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <div className="bs-docs-section">
@@ -26,25 +31,30 @@ const login = ()=>{
                         <input
                           type="email"
                           value={email}
-                          onChange={(e)=> setEmail(e.target.value)}
+                          onChange={(e) => setEmail(e.target.value)}
                           className="form-control"
                           id="exampleInputEmail1"
                           aria-describedby="emailHelp"
                           placeholder="Digite o Email"
                         />
                       </FormGroup>
-                      <FormGroup label="Senha: *" htmlFor="exampleInputPassword1">
+                      <FormGroup
+                        label="Senha: *"
+                        htmlFor="exampleInputPassword1"
+                      >
                         <input
                           type="password"
                           value={password}
-                          onChange={(e)=> setPassword(e.target.value)}
+                          onChange={(e) => setPassword(e.target.value)}
                           className="form-control"
                           id="exampleInputPassword1"
                           placeholder="Password"
                         />
                       </FormGroup>
-                      <button onClick={login} className="btn btn-success">Entrar</button>
-                      <button className="btn btn-primary">Cadastrar</button>
+                      <button onClick={login} className="btn btn-success">
+                        Entrar
+                      </button>
+                      <button onClick={handleClick} className="btn btn-primary">Cadastrar</button>
                     </fieldset>
                   </div>
                 </div>
@@ -53,6 +63,5 @@ const login = ()=>{
           </div>
         </div>
       </div>
-    </div>
   );
 }
