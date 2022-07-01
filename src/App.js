@@ -1,12 +1,17 @@
-import './App.css';
-import Login from './pages/Login/Login';
-import 'bootswatch/dist/quartz/bootstrap.css'
+import "bootswatch/dist/quartz/bootstrap.css";
+import { BrowserRouter } from "react-router-dom";
+import "./App.css";
+import Navbar from "./components/Navbar/Navbar";
+import Routes from "./routes";
 
 function App() {
   return (
-    <div>
-      <Login></Login>
-    </div>
+    <BrowserRouter>
+      <Navbar />
+      <div className="container">
+        <Routes />
+      </div>
+    </BrowserRouter>
   );
 }
 
