@@ -8,7 +8,7 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/financas">
+        <a className="navbar-brand" href="/login">
           Minhas Finanças
         </a>
         <button
@@ -25,7 +25,7 @@ function Navbar() {
 
         <div className="collapse navbar-collapse" id="navbarColor01">
           <ul className="navbar-nav me-auto">
-            <NavbarItem label="Home" href="/"/>
+            <NavbarItem label="Home" href="/home"/>
             <NavbarItem label="Usuários" href="/usuarios"/>
             <NavbarItem label="Lançamentos" href="/lancamentos"/>
           </ul>

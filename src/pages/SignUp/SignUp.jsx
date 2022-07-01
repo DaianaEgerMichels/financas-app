@@ -64,10 +64,10 @@ function SignUp() {
                 placeholder="Confirme aqui a sua Senha"
               />
             </FormGroup>
-            <button onClick={handleClick} className="btn btn-outline-primary">
+            <button onClick={handleClick} className="btn btn-primary">
               Cadastrar
             </button>
-            <button onClick={handleClick} className="btn btn-outline-warning">
+            <button onClick={handleClick} className="btn btn-warning">
               Cancelar
             </button>
           </div>
