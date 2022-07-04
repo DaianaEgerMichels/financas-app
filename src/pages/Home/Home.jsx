@@ -1,12 +1,16 @@
 import React , {useEffect, useState} from 'react'
-import axios from 'axios';
+import api from '../../utils/api';
 
 
 function Home() {
     const [saldo, setSaldo] = useState(0);
 
     useEffect(() => {
-      axios.get('http://localhost:8080/api/usuarios/1/saldo'
+      const usuarioLogadoString = localStorage.getItem('_usuario_logado');
+      const usuarioLogado = JSON.parse(usuarioLogadoString);
+
+
+      api.get(`/api/usuarios/${usuarioLogado.id}/saldo`
     ).then(response => {
       setSaldo(response.data)
     }).
