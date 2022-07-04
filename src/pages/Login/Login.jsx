@@ -11,7 +11,7 @@ export default function Login() {
 
   const login = (e) => {
     e.preventDefault();
-    try{axios.post('http://localhost:8080/api/usuarios/autenticar', {
+    try{api.post('/api/usuarios/autenticar', {
       email: email,
       senha: password
     }).then(response => {
