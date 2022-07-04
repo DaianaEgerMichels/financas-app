@@ -11,16 +11,16 @@ export default function Login() {
 
   const login = (e) => {
     e.preventDefault();
-
-    axios.post('http://localhost:8080/api/usuarios/autenticar', {
+    try{axios.post('http://localhost:8080/api/usuarios/autenticar', {
       email: email,
       senha: password
     }).then(response => {
       console.log(response)
       navigate("/home");
-    }).catch(erro => {
+    })}
+    catch(erro) {
       console.log(erro.response)
-    })
+    }
   };
 
   const handleClick = (e) => {
