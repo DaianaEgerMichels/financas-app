@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import Card from "../../components/Card/Card";
 import FormGroup from "../../components/FormGroup/FormGroup";
 import { useNavigate } from "react-router";
-import axios from "axios";
+import api from '../../utils/api';
+
+import {mensagemErro} from '../../components/Toastr/toastr.js'
 
 export default function Login() {
   const navigate = useNavigate();
@@ -19,7 +21,7 @@ export default function Login() {
       navigate("/home");
     })}
     catch(erro) {
-      console.log(erro.response)
+      mensagemErro(erro.response.data)
     }
   };
 

@@ -1,8 +1,11 @@
-import "bootswatch/dist/quartz/bootstrap.css";
+
 import { BrowserRouter } from "react-router-dom";
-import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import Routes from "./routes";
+import 'toastr/build/toastr.min.js'
+import "bootswatch/dist/quartz/bootstrap.css";
+import "./App.css";
+import 'toastr/build/toastr.css'
 
 function App() {
   return (
