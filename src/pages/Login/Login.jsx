@@ -19,7 +19,7 @@ export default function Login() {
     }).then(response => {
       console.log(response)
       navigate("/home");
-    })}
+    }).catch(erro => mensagemErro(erro.response.data))}
     catch(erro) {
       mensagemErro(erro.response.data)
     }
