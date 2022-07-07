@@ -6,11 +6,7 @@ function Home() {
     const [saldo, setSaldo] = useState(0);
 
     useEffect(() => {
-      const usuarioLogadoString = localStorage.getItem('_usuario_logado');
-      const usuarioLogado = JSON.parse(usuarioLogadoString);
-
-
-      api.get(`/api/usuarios/${usuarioLogado.id}/saldo`
+      api.get(`/api/usuarios/${1}/saldo`
     ).then(response => {
       setSaldo(response.data)
     }).
