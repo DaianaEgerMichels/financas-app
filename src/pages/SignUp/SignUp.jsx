@@ -21,9 +21,40 @@ function SignUp() {
     navigate("/home");
   };
 
+  const validarCampos = ()=>{
+    const mensagens = []
+
+    if (!name) {
+      mensagens.push("Nome é um campo obrigatório.");
+     
+    } else if (!email.match(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]/)) {
+      mensagens.push("Informe um email válido.");
+      
+    } 
+    else if (!password || !confirmPassword) {
+      mensagens.push("Senha é um campo obrigatório. Digite a senha duas vezes para confirmar.");
+      
+    } else if (confirmPassword !== password) {
+      mensagens.push("As senhas devem ser iguais.");
+      
+    }
+    return mensagens;
+  }
+
   const cadastrar = (e) => {
     e.preventDefault();
+    const mensagens = validarCampos();
+
+    if(mensagens && mensagens.length >0){
+      mensagens.forEach((mensagem, index)=>{
+        mensagemErro(mensagem)
+      });
+      return false;
+    }
+
     try {
+    
+      
       api
         .post("/api/usuarios", {
           nome: name,
