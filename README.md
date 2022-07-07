@@ -12,6 +12,14 @@ FRONTEND: desenvolvimento de app para a aplicação de finanças do curso de Spr
 <img src="./src/login.png" alt="Page login"/>
 </p>
 
+<p align="center">
+<img src="./src/home.png" alt="Page home"/>
+</p>
+
+<p align="center">
+<img src="./src/signup.png" alt="Page SignUp"/>
+</p>
+
 
 ## Available Scripts
 
