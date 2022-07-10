@@ -2,6 +2,7 @@ import React from "react";
 import Card from "../../components/Card/Card";
 import FormGroup from "../../components/FormGroup/FormGroup";
 import SelectMenu from "../../components/SelectMenu/SelectMenu";
+import LancamentosTable from "../../components/LancamentosTable/LancamentosTable";
 
 function ConsultReleases() {
   const meses = [
@@ -26,6 +27,10 @@ function ConsultReleases() {
     { label: "RECEITA", value: "RECEITA" },
   ];
 
+  const lancamentos =[
+    {id: 1, descricao: 'Salário', valor: 2850, mes: 6, tipo: 'Receita', status: 'Efetivado'},
+  ];
+
   return (
     <Card title="Consulta Lançamentos">
       <div className="row">
@@ -42,7 +47,7 @@ function ConsultReleases() {
                 placeholder="Digite o Ano"
               />
             </FormGroup>
-            <FormGroup htmlFor="inputMes" label="Mês: *">
+            <FormGroup htmlFor="inputMes" label="Mês: ">
               <SelectMenu
                 id="inputMes"
                 className="form-control"
@@ -58,6 +63,14 @@ function ConsultReleases() {
             </FormGroup>
             <button className="btn btn-sucess">Buscar</button>
             <button className="btn btn-danger">Cadastrar</button>
+          </div>
+        </div>
+      </div>
+      <br/>
+      <div className="row">
+        <div className="col-md-12">
+          <div className="bs-component">
+            <LancamentosTable rows={lancamentos}></LancamentosTable>
           </div>
         </div>
       </div>
