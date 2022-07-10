@@ -5,7 +5,7 @@ import SelectMenu from '../../components/SelectMenu/SelectMenu';
 
 function ConsultReleases() {
 
-  const lista = [
+  const meses = [
     {label: 'SELECIONE...', value:''},
     {label: 'JANEIRO', value: 1},
     {label: 'FEVEREIRO', value: 2},
@@ -19,7 +19,13 @@ function ConsultReleases() {
     {label: 'OUTUBRO', value: 10},
     {label: 'NOVEMBRO', value: 11},
     {label: 'DEZEMBRO', value: 12},
-  ]
+  ];
+
+  const tipos = [
+    {label: 'SELECIONE...', value: ''},
+    {label: 'DESPESA', value: 'DESPESA'},
+    {label: 'RECEITA', value: 'RECEITA'},
+  ];
 
   return (
     <Card title="Consulta Lançamentos">
@@ -38,7 +44,10 @@ function ConsultReleases() {
                       />
                     </FormGroup>
                     <FormGroup htmlFor="inputMes" label="Mês: *">
-                      <SelectMenu className="form-control" lista={lista}/>
+                      <SelectMenu id="inputMes" className="form-control" lista={meses}/>
+                    </FormGroup>
+                    <FormGroup htmlFor="inputTipo" label="Tipo Lançamento: ">
+                      <SelectMenu id="inputTipo" className="form-control" lista={tipos}/>
                     </FormGroup>
                 </div>
             </div>
