@@ -27,7 +27,7 @@ function Navbar() {
           <ul className="navbar-nav me-auto">
             <NavbarItem label="Home" href="/home"/>
             <NavbarItem label="Usuários" href="/usuarios"/>
-            <NavbarItem label="Lançamentos" href="/lancamentos"/>
+            <NavbarItem label="Lançamentos" href="/consulta-lancamentos"/>
           </ul>
         <button className="btn btn-primary my-2 my-sm-0" onClick={()=> navigate('/login')}><IoLogOutOutline size={26}/></button>
         </div>

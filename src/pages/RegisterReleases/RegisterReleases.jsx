@@ -3,11 +3,18 @@ import { useState } from "react";
 import Card from "../../components/Card/Card";
 import FormGroup from "../../components/FormGroup/FormGroup";
 import SelectMenu from "../../components/SelectMenu/SelectMenu";
+import {
+  mensagemErro,
+  mensagemSucesso,
+} from "../../components/Toastr/toastr.js";
+import { useNavigate } from "react-router";
+import api from "../../utils/api";
 
 function RegisterReleases() {
+  const navigate = useNavigate();
   const [tipo, setTipo] = useState("");
   const [mes, setMes] = useState(0);
-  const [id, setId] = useState(null);
+  const [id, setId] = useState(0);
   const [ano, setAno] = useState("");
   const [valor, setValor] = useState("");
   const [status, setStatus] = useState("");
@@ -35,11 +42,57 @@ function RegisterReleases() {
     { label: "RECEITA", value: "RECEITA" },
   ];
 
-  const handleChange = (event) => {
-    const value = event.target.value;
-    const name = event.target.name;
+  const validarCampos = () => {
+    const mensagens = [];
 
-    useState({ [name]: value });
+    if (!descricao) {
+      mensagens.push("Informe uma descrição para o lançamento.");
+    } else if (!ano) {
+      mensagens.push("Ano é um campo obrigatório.");
+    } else if (!mes) {
+      mensagens.push("Mês é um campo obrigatório.");
+    } else if (!valor || valor == 0) {
+      mensagens.push("Informe o valor do lançamento");
+    } else if (!tipo) {
+      mensagens.push("Informe o tipo do seu lançamento.");
+    }
+    return mensagens;
+  };
+
+  const salvarLancamento = (e) => {
+    e.preventDefault();
+    const mensagens = validarCampos();
+
+    if (mensagens && mensagens.length > 0) {
+      mensagens.forEach((mensagem, index) => {
+        mensagemErro(mensagem);
+      });
+      return false;
+    }
+
+    try {
+      api
+        .post("/api/lancamentos", {
+          id: id,
+          descricao: descricao,
+          ano: ano,
+          mes: mes,
+          tipo: tipo,
+          valor: valor,
+        })
+        .then(() => {
+          mensagemSucesso("Lançamento cadastrado com sucesso!");
+          navigate("/consulta-lancamentos");
+        })
+        .catch((erro) => mensagemErro(erro.response.data));
+    } catch (error) {
+      mensagemErro(error);
+    }
+  };
+
+  const cancelar = (e) => {
+    e.preventDefault();
+    navigate("/home");
   };
 
   return (
@@ -51,7 +104,7 @@ function RegisterReleases() {
               id="inputDescricao"
               value={descricao}
               name="descricao"
-              onChange={handleChange}
+              onChange={(e) => setDescricao(e.target.value)}
               type="text"
               className="form-control"
             />
@@ -65,7 +118,7 @@ function RegisterReleases() {
               id="inputAno"
               value={ano}
               name="ano"
-              onChange={handleChange}
+              onChange={(e) => setAno(e.target.value)}
               type="text"
               className="form-control"
             />
@@ -75,7 +128,10 @@ function RegisterReleases() {
           <FormGroup id="inputMes" label="Mês: *">
             <SelectMenu
               id="inputMes"
-              className="form-control"
+              className="nav-link dropdown-toggle  btn-outline-info form-control"
+              data-bs-toggle="dropdown"
+              role="button"
+              aria-haspopup="true"
               lista={meses}
               value={mes}
               onChange={(e) => setMes(e.target.value)}
@@ -90,7 +146,7 @@ function RegisterReleases() {
               id="inputValor"
               value={valor}
               name="valor"
-              onChange={handleChange}
+              onChange={(e) => setValor(e.target.value)}
               type="text"
               className="form-control"
             />
@@ -100,7 +156,10 @@ function RegisterReleases() {
           <FormGroup id="inputTipo" label="Tipo: *">
             <SelectMenu
               id="inputTipo"
-              className="form-control"
+              className="nav-link dropdown-toggle  btn-outline-info form-control"
+              data-bs-toggle="dropdown"
+              role="button"
+              aria-haspopup="true"
               lista={tipos}
               value={tipo}
               onChange={(e) => setTipo(e.target.value)}
@@ -122,8 +181,12 @@ function RegisterReleases() {
       </div>
       <div className="row">
         <div className="col-md-6">
-          <button className="btn btn-sucess">Salvar</button>
-          <button className="btn btn-danger">Cancelar</button>
+          <button onClick={salvarLancamento} className="btn btn-primary">
+            Salvar
+          </button>
+          <button onClick={cancelar} className="btn btn-danger">
+            Cancelar
+          </button>
         </div>
       </div>
     </Card>
