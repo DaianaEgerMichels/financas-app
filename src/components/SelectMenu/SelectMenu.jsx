@@ -1,14 +1,13 @@
-import React from 'react'
+import React from "react";
 
-function SelectMenu(props) {
+export default (props) => {
+  const options = props.lista.map((option, index) => {
+    return (
+      <option key={index} value={option.value}>
+        {option.label}
+      </option>
+    );
+  });
 
-    const options = props.lista.map((option, index) => {
-        <option key ={index} value={option.value}>{option.label}</option>
-    })
-
-  return (
-    <select {...props}>{options}</select>
-  )
-}
-
-export default SelectMenu;
+  return <select {...props}>{options}</select>;
+};

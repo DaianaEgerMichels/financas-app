@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Card from "../../components/Card/Card";
 import FormGroup from "../../components/FormGroup/FormGroup";
 import { useNavigate } from "react-router";
-import api from "../../utils/api";
+import api from "../../utils/api"
 
 import { mensagemErro } from "../../components/Toastr/toastr.js";
 
@@ -18,9 +18,10 @@ export default function Login() {
         .post("/api/usuarios/autenticar", {
           email: email,
           senha: password,
-        })
-        .then((response) => {
-          console.log(response);
+        }).then((response) => {
+          localStorage.setItem('_usuario_logado', JSON.stringify(response.data))
+          localStorage.getItem('_usuario_logado')
+          console.log(response.data);
           navigate("/home");
         })
         .catch((erro) => mensagemErro(erro.response.data));

@@ -18,7 +18,7 @@ function SignUp() {
 
   const handleClick = (e) => {
     e.preventDefault();
-    navigate("/home");
+    navigate("/login");
   };
 
   const validarCampos = ()=>{
@@ -53,8 +53,6 @@ function SignUp() {
     }
 
     try {
-    
-      
       api
         .post("/api/usuarios", {
           nome: name,

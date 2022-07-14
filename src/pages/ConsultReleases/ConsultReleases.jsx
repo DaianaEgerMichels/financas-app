@@ -4,14 +4,17 @@ import FormGroup from "../../components/FormGroup/FormGroup";
 import SelectMenu from "../../components/SelectMenu/SelectMenu";
 import LancamentosTable from "../../components/LancamentosTable/LancamentosTable";
 import { useState } from "react";
-import * as mensagens from '../../components/Toastr/toastr.js';
+import * as mensagens from "../../components/Toastr/toastr.js";
 import Swal from "sweetalert2";
+import api from "../../utils/api";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function ConsultReleases() {
-
+  const navigate = useNavigate();
   const [ano, setAno] = useState(0);
   const [mes, setMes] = useState(0);
-  const [tipo, setTipo] = useState('');
+  const [tipo, setTipo] = useState("");
   const [lancamentos, setLancamentos] = useState([]);
 
   const [deletar, setDeletar] = useState(false);
@@ -38,56 +41,60 @@ function ConsultReleases() {
     { label: "RECEITA", value: "RECEITA" },
   ];
 
- const buscar = ()=>{
-    if(!ano){
-      mensagens.mensagemErro('O preenchimento do campo Ano é obrigatório.')
+  const cadastrarLancamentos = () => {
+    navigate("/cadastro-lancamentos");
+  };
+
+  const buscar = () => {
+    if (!ano) {
+      mensagens.mensagemErro("O preenchimento do campo Ano é obrigatório.");
       return false;
     }
-  }
+  };
 
-  const editar = (id)=>{
+  const editar = (id) => {
     console.log(id);
-  }
+  };
 
   const handleDelete = (idLancamento) => {
     Swal.fire({
-      title: 'Tem certeza que deseja deletar o lançamento?',
+      title: "Tem certeza que deseja deletar o lançamento?",
       text: "Caso confirme, você não poderá mais reverter está ação!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#ce19b0',
-      cancelButtonColor: '#d8a414',
-      confirmButtonText: 'Sim, deletar!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setDeletar(true);
-      if (idLancamento) {
-        api
-          .delete(`http://localhost:8080/api/lancamentos${idLancamento}`)
-      }
-        Swal.fire(
-          'Deletado!',
-          'Lançamento deletado com sucesso!',
-          'success'
-        )
-      }
+      confirmButtonColor: "#ce19b0",
+      cancelButtonColor: "#d8a414",
+      confirmButtonText: "Sim, deletar!",
     })
-    .catch(() =>
-      mensagens.mensagemAlerta("Houve um problema ao deletar o lançamento!")
-    );
+      .then((result) => {
+        if (result.isConfirmed) {
+          setDeletar(true);
+          if (idLancamento) {
+            api.delete(`http://localhost:8080/api/lancamentos${idLancamento}`);
+          }
+          Swal.fire("Deletado!", "Lançamento deletado com sucesso!", "success");
+        }
+      })
+      .catch(() =>
+        mensagens.mensagemAlerta("Houve um problema ao deletar o lançamento!")
+      );
   };
 
   useEffect(() => {
-    try{api
-      .get("/api/lancamentos")
-      .then((response) => {
-        setLancamentos(response.data.lancamentos);
-      })
-      .catch(() => mensagens.mensagemAlerta("Houve um problema ao buscar os lançamentos!"));}
-      catch(error){
-        mensagens.mensagemErro(error);
-      }
-    
+    try {
+      api
+        .get("/api/lancamentos")
+        .then((response) => {
+          setLancamentos(response.data.lancamentos);
+        })
+        .catch(() =>
+          mensagens.mensagemAlerta(
+            "Houve um problema ao buscar os lançamentos!"
+          )
+        );
+    } catch (error) {
+      mensagens.mensagemErro(error);
+    }
   }, [deletar]);
 
   return (
@@ -108,7 +115,10 @@ function ConsultReleases() {
             <FormGroup htmlFor="inputMes" label="Mês: ">
               <SelectMenu
                 id="inputMes"
-                className="form-control"
+                className="nav-link dropdown-toggle  btn-outline-info form-control"
+                data-bs-toggle="dropdown"
+                role="button"
+                aria-haspopup="true"
                 lista={meses}
                 value={mes}
                 onChange={(e) => setMes(e.target.value)}
@@ -117,22 +127,33 @@ function ConsultReleases() {
             <FormGroup htmlFor="inputTipo" label="Tipo Lançamento: ">
               <SelectMenu
                 id="inputTipo"
-                className="form-control"
+                className="nav-link dropdown-toggle  btn-outline-info form-control"
+                data-bs-toggle="dropdown"
+                role="button"
+                aria-haspopup="true"
                 lista={tipos}
                 value={tipo}
                 onChange={(e) => setTipo(e.target.value)}
               />
             </FormGroup>
-            <button onClick={buscar} className="btn btn-sucess">Buscar</button>
-            <button className="btn btn-danger">Cadastrar</button>
+            <button onClick={buscar} className="btn btn-primary">
+              Buscar
+            </button>
+            <button onClick={cadastrarLancamentos} className="btn btn-danger">
+              Cadastrar
+            </button>
           </div>
         </div>
       </div>
-      <br/>
+      <br />
       <div className="row">
         <div className="col-md-12">
           <div className="bs-component">
-            <LancamentosTable lancamentos={lancamentos} deleteAction={handleDelete} editAction={editar}></LancamentosTable>
+            <LancamentosTable
+              lancamentos={lancamentos}
+              deleteAction={handleDelete}
+              editAction={editar}
+            ></LancamentosTable>
           </div>
         </div>
       </div>
