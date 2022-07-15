@@ -102,30 +102,7 @@ function ConsultReleases() {
       mensagens.mensagemErro(error);
     }
 
-      // api.consultar (lancamentoFiltro)
-      // .then(response => {
-      //   setLancamentos(response.data)
-      //   console.log(response)
-      // })
   };
-
-  // useEffect(() => {
-  //   try {
-  //     api
-  //       .get(url)
-  //       .then((response) => {
-  //         console.log(response);
-  //         setLancamentos(response.data);
-  //       })
-  //       .catch(() =>
-  //         mensagens.mensagemAlerta(
-  //           "Houve um problema ao buscar os lançamentos!"
-  //         )
-  //       );
-  //   } catch (error) {
-  //     mensagens.mensagemErro(error);
-  //   }
-  // }, [deletar]);
 
   const editar = (id) => {
     console.log(id);
