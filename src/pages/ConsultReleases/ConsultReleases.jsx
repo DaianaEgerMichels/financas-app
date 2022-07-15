@@ -41,6 +41,29 @@ function ConsultReleases() {
     { label: "RECEITA", value: "RECEITA" },
   ];
 
+ function consultar (lancamentoFiltro){
+    
+    let params = `?ano=${lancamentoFiltro.ano}`;
+
+    if (lancamentoFiltro.mes) {
+      params = `${params}&mes=${lancamentoFiltro.mes}`;
+    }
+
+    if (lancamentoFiltro.tipo) {
+      params = `${params}&tipo=${lancamentoFiltro.tipo}`;
+    }
+    if (lancamentoFiltro.status) {
+      params = `${params}&status=${lancamentoFiltro.status}`;
+    }
+    if (lancamentoFiltro.usuario) {
+      params = `${params}&usuario=${lancamentoFiltro.usuario}`;
+    }
+    let url = "/api/lancamentos" 
+    url+= params;
+
+    return url;
+  };
+
   const cadastrarLancamentos = () => {
     navigate("/cadastro-lancamentos");
   };
@@ -50,7 +73,59 @@ function ConsultReleases() {
       mensagens.mensagemErro("O preenchimento do campo Ano é obrigatório.");
       return false;
     }
+
+    const usuarioLogadoString = localStorage.getItem("_usuario_logado");
+    const usuarioLogado = JSON.parse(usuarioLogadoString);
+    const lancamentoFiltro = {
+      ano: ano,
+      mes: mes,
+      tipo: tipo,
+      usuario: usuarioLogado.id,
+    };
+
+    let url = consultar(lancamentoFiltro)
+
+    try {
+      api
+        .get(url)
+        .then((response) => {
+          console.log(response.data);
+          setLancamentos(response.data);
+          console.log(lancamentos)
+        })
+        .catch(() =>
+          mensagens.mensagemAlerta(
+            "Houve um problema ao buscar os lançamentos!"
+          )
+        );
+    } catch (error) {
+      mensagens.mensagemErro(error);
+    }
+
+      // api.consultar (lancamentoFiltro)
+      // .then(response => {
+      //   setLancamentos(response.data)
+      //   console.log(response)
+      // })
   };
+
+  // useEffect(() => {
+  //   try {
+  //     api
+  //       .get(url)
+  //       .then((response) => {
+  //         console.log(response);
+  //         setLancamentos(response.data);
+  //       })
+  //       .catch(() =>
+  //         mensagens.mensagemAlerta(
+  //           "Houve um problema ao buscar os lançamentos!"
+  //         )
+  //       );
+  //   } catch (error) {
+  //     mensagens.mensagemErro(error);
+  //   }
+  // }, [deletar]);
 
   const editar = (id) => {
     console.log(id);
@@ -80,22 +155,7 @@ function ConsultReleases() {
       );
   };
 
-  useEffect(() => {
-    try {
-      api
-        .get("/api/lancamentos")
-        .then((response) => {
-          setLancamentos(response.data.lancamentos);
-        })
-        .catch(() =>
-          mensagens.mensagemAlerta(
-            "Houve um problema ao buscar os lançamentos!"
-          )
-        );
-    } catch (error) {
-      mensagens.mensagemErro(error);
-    }
-  }, [deletar]);
+  
 
   return (
     <Card title="Consulta Lançamentos">
