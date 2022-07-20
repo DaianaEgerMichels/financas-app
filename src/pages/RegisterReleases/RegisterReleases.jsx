@@ -14,7 +14,7 @@ function RegisterReleases() {
   const navigate = useNavigate();
   const [tipo, setTipo] = useState("");
   const [mes, setMes] = useState(0);
-  const [id, setId] = useState(0);
+  //const [id, setId] = useState(0);
   const [ano, setAno] = useState("");
   const [valor, setValor] = useState("");
   const [status, setStatus] = useState("");
@@ -71,14 +71,17 @@ function RegisterReleases() {
     }
 
     try {
+      const usuarioLogadoString = localStorage.getItem('_usuario_logado')
+      const usuarioLogado = JSON.parse(usuarioLogadoString)
       api
         .post("/api/lancamentos", {
-          id: id,
+          usuario: usuarioLogado.id,
           descricao: descricao,
           ano: ano,
           mes: mes,
           tipo: tipo,
           valor: valor,
+          status: 'PENDENTE'
         })
         .then(() => {
           mensagemSucesso("Lançamento cadastrado com sucesso!");

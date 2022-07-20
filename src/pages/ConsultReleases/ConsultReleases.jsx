@@ -89,6 +89,7 @@ function ConsultReleases() {
         .get(url)
         .then((response) => {
           lancamentos.push(response.data);
+          console.log(lancamentos);
         })
         .catch(() =>
           mensagens.mensagemAlerta(
