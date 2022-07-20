@@ -7,7 +7,6 @@ import { useState } from "react";
 import * as mensagens from "../../components/Toastr/toastr.js";
 import Swal from "sweetalert2";
 import api from "../../utils/api";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function ConsultReleases() {
@@ -15,7 +14,7 @@ function ConsultReleases() {
   const [ano, setAno] = useState(0);
   const [mes, setMes] = useState(0);
   const [tipo, setTipo] = useState("");
-  const [lancamentos, setLancamentos] = useState([]);
+  const lancamentos = [];
 
   const [deletar, setDeletar] = useState(false);
 
@@ -34,6 +33,7 @@ function ConsultReleases() {
     { label: "NOVEMBRO", value: 11 },
     { label: "DEZEMBRO", value: 12 },
   ];
+  
 
   const tipos = [
     { label: "SELECIONE...", value: "" },
@@ -41,8 +41,7 @@ function ConsultReleases() {
     { label: "RECEITA", value: "RECEITA" },
   ];
 
- function consultar (lancamentoFiltro){
-    
+  function consultar(lancamentoFiltro) {
     let params = `?ano=${lancamentoFiltro.ano}`;
 
     if (lancamentoFiltro.mes) {
@@ -58,11 +57,11 @@ function ConsultReleases() {
     if (lancamentoFiltro.usuario) {
       params = `${params}&usuario=${lancamentoFiltro.usuario}`;
     }
-    let url = "/api/lancamentos" 
-    url+= params;
+    let url = "/api/lancamentos";
+    url += params;
 
     return url;
-  };
+  }
 
   const cadastrarLancamentos = () => {
     navigate("/cadastro-lancamentos");
@@ -83,15 +82,14 @@ function ConsultReleases() {
       usuario: usuarioLogado.id,
     };
 
-    let url = consultar(lancamentoFiltro)
+    let url = consultar(lancamentoFiltro);
 
     try {
       api
         .get(url)
         .then((response) => {
-          console.log(response.data);
-          setLancamentos(response.data);
-          console.log(lancamentos)
+          lancamentos.push(response.data);
+          console.log(lancamentos);
         })
         .catch(() =>
           mensagens.mensagemAlerta(
@@ -101,7 +99,6 @@ function ConsultReleases() {
     } catch (error) {
       mensagens.mensagemErro(error);
     }
-
   };
 
   const editar = (id) => {
@@ -131,8 +128,6 @@ function ConsultReleases() {
         mensagens.mensagemAlerta("Houve um problema ao deletar o lançamento!")
       );
   };
-
-  
 
   return (
     <Card title="Consulta Lançamentos">

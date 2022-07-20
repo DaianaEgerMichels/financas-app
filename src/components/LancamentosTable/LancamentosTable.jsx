@@ -4,30 +4,30 @@ import { MdEdit, MdDelete } from "react-icons/md";
 
 function LancamentosTable(props) {
   const rows = props.lancamentos.map((lancamento) => {
-    return (
-      <tr key={lancamento.id}>
-        <td>{lancamento.descricao}</td>
-        <td>
-          {currencyFormatter.format(lancamento.valor, { locale: "pt-BR" })}
-        </td>
-        <td>{lancamento.tipo}</td>
-        <td>{lancamento.mes}</td>
-        <td>{lancamento.status}</td>
-        <td>
-          <button onClick={e => props.editAction(lancamento.id)} className="btn btn-primary">
-            <abbr title="Editar">
-              <MdEdit />
-            </abbr>
-          </button>
-          <button onClick={e => props.deleteAction(lancamento.id)} className="btn btn-danger">
-            <abbr title="Deletar">
-              <MdDelete />
-            </abbr>
-          </button>
-        </td>
-      </tr>
-    );
-  });
+      return (
+        <tr key={lancamento.id}>
+          <td>{lancamento.descricao}</td>
+          <td>
+            {currencyFormatter.format(lancamento.valor, { locale: "pt-BR" })}
+          </td>
+          <td>{lancamento.tipo}</td>
+          <td>{lancamento.mes}</td>
+          <td>{lancamento.status}</td>
+          <td>
+            <button onClick={e => props.editAction(lancamento.id)} className="btn btn-primary">
+              <abbr title="Editar">
+                <MdEdit />
+              </abbr>
+            </button>
+            <button onClick={e => props.deleteAction(lancamento.id)} className="btn btn-danger">
+              <abbr title="Deletar">
+                <MdDelete />
+              </abbr>
+            </button>
+          </td>
+        </tr>
+      );
+    });
 
   return (
     <table className="table table-hover">
@@ -41,7 +41,7 @@ function LancamentosTable(props) {
           <th scope="col">Ações</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>{rows}</tbody>
     </table>
   );
 }
