@@ -14,9 +14,7 @@ function ConsultReleases() {
   const [ano, setAno] = useState(0);
   const [mes, setMes] = useState(0);
   const [tipo, setTipo] = useState("");
-  const lancamentos = [];
-
-  const [deletar, setDeletar] = useState(false);
+  const [lancamentos, setLancamentos] = useState([]);
 
   const meses = [
     { label: "SELECIONE...", value: "" },
@@ -88,7 +86,7 @@ function ConsultReleases() {
       api
         .get(url)
         .then((response) => {
-          lancamentos.push(response.data);
+          setLancamentos(response.data);
           console.log(lancamentos);
         })
         .catch(() =>
@@ -102,7 +100,7 @@ function ConsultReleases() {
   };
 
   const editar = (id) => {
-    console.log(id);
+    navigate(`/cadastro-lancamentos/${id}`)
   };
 
   const handleDelete = (idLancamento) => {
@@ -117,7 +115,6 @@ function ConsultReleases() {
     })
       .then((result) => {
         if (result.isConfirmed) {
-          setDeletar(true);
           if (idLancamento) {
             api.delete(`http://localhost:8080/api/lancamentos${idLancamento}`);
           }

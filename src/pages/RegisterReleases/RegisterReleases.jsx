@@ -1,20 +1,21 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Card from "../../components/Card/Card";
 import FormGroup from "../../components/FormGroup/FormGroup";
 import SelectMenu from "../../components/SelectMenu/SelectMenu";
 import {
+  mensagemAlerta,
   mensagemErro,
   mensagemSucesso,
 } from "../../components/Toastr/toastr.js";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import api from "../../utils/api";
 
 function RegisterReleases() {
   const navigate = useNavigate();
+  const params = useParams();
   const [tipo, setTipo] = useState("");
   const [mes, setMes] = useState(0);
-  //const [id, setId] = useState(0);
   const [ano, setAno] = useState("");
   const [valor, setValor] = useState("");
   const [status, setStatus] = useState("");
@@ -51,7 +52,7 @@ function RegisterReleases() {
       mensagens.push("Ano é um campo obrigatório.");
     } else if (!mes) {
       mensagens.push("Mês é um campo obrigatório.");
-    } else if (!valor || valor == 0) {
+    } else if (!valor || valor === 0) {
       mensagens.push("Informe o valor do lançamento");
     } else if (!tipo) {
       mensagens.push("Informe o tipo do seu lançamento.");
@@ -73,7 +74,23 @@ function RegisterReleases() {
     try {
       const usuarioLogadoString = localStorage.getItem('_usuario_logado')
       const usuarioLogado = JSON.parse(usuarioLogadoString)
-      api
+
+      if(params.id){
+        api.put(`/api/lancamentos/${params.id}`, {usuario: usuarioLogado.id,
+          descricao: descricao,
+          ano: ano,
+          mes: mes,
+          tipo: tipo,
+          valor: valor,
+          status: status,}).then(() => {
+            mensagemSucesso("Lançamento atualizado!");
+          navigate("/consulta-lancamentos");
+          })
+          .catch((erro) => {
+             mensagemErro(erro.response.data);
+          });
+      } else {
+        api
         .post("/api/lancamentos", {
           usuario: usuarioLogado.id,
           descricao: descricao,
@@ -88,10 +105,50 @@ function RegisterReleases() {
           navigate("/consulta-lancamentos");
         })
         .catch((erro) => mensagemErro(erro.response.data));
+      }
+
     } catch (error) {
       mensagemErro(error);
     }
   };
+
+  const usuarioLoggedString = localStorage.getItem("_institution_logged");
+  const usuarioLogged = JSON.parse(usuarioLoggedString);
+
+    if (usuarioLogged.id === null || usuarioLogged.id === 0) {
+      mensagemErro("Houve um erro ao buscar os lançamentos");
+    }
+
+  useEffect(() => {
+    try {
+        if(params.id){         
+      api
+        .get(`/api/lancamentos/${params.id}`, {params: {usuario: usuarioLogged.id}})
+        .then((response) => {
+          if(!response){
+            mensagemAlerta("Não há lançametos registrados!")
+            navigate("/home")
+          }
+        let result = response.data;
+        console.log(result)
+
+        setDescricao(result.descricao)
+        setAno(result.ano)
+        setMes(result.mes)
+        setTipo(result.tipo)
+        setValor(result.valor)
+        setStatus(result.status)
+    })
+        .catch((erro) =>{
+          mensagemAlerta("Houve um problema ao buscar o lançamento!");
+          mensagemErro(erro.response.data);}
+        );}
+    } catch (error) {
+      mensagemErro(error);
+    }
+  }, [params, usuarioLogged.id, navigate]); 
+
+
 
   const cancelar = (e) => {
     e.preventDefault();

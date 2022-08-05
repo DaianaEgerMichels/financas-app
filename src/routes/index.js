@@ -15,6 +15,7 @@ function Routes() {
         <Route exact path="/usuarios" element={<SignUp/>} />
         <Route exact path="/consulta-lancamentos" element={<ConsultReleases/>} />
         <Route exact path="/cadastro-lancamentos" element={<RegisterReleases/>} />
+        <Route exact path="/cadastro-lancamentos/:id" element={<RegisterReleases/>} />
       </Switch>
     </>
   );
