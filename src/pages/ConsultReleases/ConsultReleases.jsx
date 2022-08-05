@@ -126,6 +126,25 @@ function ConsultReleases() {
       );
   };
 
+  const atualizarStatus = (lancamento, status)=>{
+    return api.put(`/${lancamento.id}/atualiza-status`, {status})
+    .then((response) => {
+      const lancamentos = lancamentos;
+      const indexLancamento = lancamentos.indexOf(lancamento);
+      if(indexLancamento !== -1){
+        lancamento['status'] = status;
+        lancamentos[indexLancamento] = lancamento;
+        setLancamentos({lancamento});
+      }
+      mensagens.mensagemSucesso("Status de Lançamento atualizado com sucesso!");
+    })
+    .catch(() =>
+      mensagens.mensagemAlerta(
+        "Houve um problema ao atualizar o status do lançamento!"
+      )
+    );
+  }
+
   return (
     <Card title="Consulta Lançamentos">
       <div className="row">
@@ -182,6 +201,7 @@ function ConsultReleases() {
               lancamentos={lancamentos}
               deleteAction={handleDelete}
               editAction={editar}
+              alterarStatus = {atualizarStatus}
             ></LancamentosTable>
           </div>
         </div>

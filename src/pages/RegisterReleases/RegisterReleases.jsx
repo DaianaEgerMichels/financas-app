@@ -123,9 +123,9 @@ function RegisterReleases() {
     try {
         if(params.id){         
       api
-        .get(`/api/lancamentos/${params.id}`, {params: {usuario: usuarioLogged.id}})
+        .get(`/api/lancamentos/${params.id}`)
         .then((response) => {
-          if(!response){
+          if(response.data.length < 1){
             mensagemAlerta("Não há lançametos registrados!")
             navigate("/home")
           }
@@ -146,7 +146,7 @@ function RegisterReleases() {
     } catch (error) {
       mensagemErro(error);
     }
-  }, [params, usuarioLogged.id, navigate]); 
+  }, [params, navigate]); 
 
 
 
