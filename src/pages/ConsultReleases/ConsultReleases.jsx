@@ -8,6 +8,7 @@ import * as mensagens from "../../components/Toastr/toastr.js";
 import Swal from "sweetalert2";
 import api from "../../utils/api";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../../components/Navbar/Navbar";
 
 function ConsultReleases() {
   const navigate = useNavigate();
@@ -129,7 +130,6 @@ function ConsultReleases() {
   const atualizarStatus = (lancamento, status)=>{
     return api.put(`/${lancamento.id}/atualiza-status`, {status})
     .then((response) => {
-      const lancamentos = lancamentos;
       const indexLancamento = lancamentos.indexOf(lancamento);
       if(indexLancamento !== -1){
         lancamento['status'] = status;
@@ -146,6 +146,9 @@ function ConsultReleases() {
   }
 
   return (
+    <>
+    <Navbar />
+    <div className="container">
     <Card title="Consulta Lançamentos">
       <div className="row">
         <div className="col-md-6">
@@ -207,6 +210,8 @@ function ConsultReleases() {
         </div>
       </div>
     </Card>
+    </div>
+    </>
   );
 }
 

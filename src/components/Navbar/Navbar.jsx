@@ -5,10 +5,16 @@ import { useNavigate } from "react-router";
 
 function Navbar() {
   const navigate = useNavigate();
+
+  const handleLogout = ()=>{
+    localStorage.removeItem("_usuario_logado");
+    navigate('/login');
+  }
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/login">
+        <a className="navbar-brand" href="/home">
           Minhas Finanças
         </a>
         <button
@@ -29,7 +35,7 @@ function Navbar() {
             <NavbarItem label="Usuários" href="/usuarios"/>
             <NavbarItem label="Lançamentos" href="/consulta-lancamentos"/>
           </ul>
-        <button className="btn btn-primary my-2 my-sm-0" onClick={()=> navigate('/login')}><IoLogOutOutline size={26}/></button>
+        <button className="btn btn-primary my-2 my-sm-0" onClick={handleLogout}><IoLogOutOutline size={26}/></button>
         </div>
       </div>
     </nav>

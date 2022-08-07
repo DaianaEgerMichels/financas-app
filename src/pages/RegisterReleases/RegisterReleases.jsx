@@ -10,6 +10,7 @@ import {
 } from "../../components/Toastr/toastr.js";
 import { useNavigate, useParams } from "react-router";
 import api from "../../utils/api";
+import Navbar from "../../components/Navbar/Navbar";
 
 function RegisterReleases() {
   const navigate = useNavigate();
@@ -156,6 +157,9 @@ function RegisterReleases() {
   };
 
   return (
+    <>
+    <Navbar />
+    <div className="container">
     <Card title="Cadastro de Lançamentos">
       <div className="row">
         <div className="col-md-12">
@@ -250,6 +254,8 @@ function RegisterReleases() {
         </div>
       </div>
     </Card>
+    </div>
+    </>
   );
 }
 
