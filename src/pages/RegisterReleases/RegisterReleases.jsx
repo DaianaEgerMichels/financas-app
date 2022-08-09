@@ -10,6 +10,7 @@ import {
 } from "../../components/Toastr/toastr.js";
 import { useNavigate, useParams } from "react-router";
 import api from "../../utils/api";
+import Navbar from "../../components/Navbar/Navbar";
 
 function RegisterReleases() {
   const navigate = useNavigate();
@@ -123,9 +124,9 @@ function RegisterReleases() {
     try {
         if(params.id){         
       api
-        .get(`/api/lancamentos/${params.id}`, {params: {usuario: usuarioLogged.id}})
+        .get(`/api/lancamentos/${params.id}`)
         .then((response) => {
-          if(!response){
+          if(response.data.length < 1){
             mensagemAlerta("Não há lançametos registrados!")
             navigate("/home")
           }
@@ -146,7 +147,7 @@ function RegisterReleases() {
     } catch (error) {
       mensagemErro(error);
     }
-  }, [params, usuarioLogged.id, navigate]); 
+  }, [params, navigate]); 
 
 
 
@@ -156,6 +157,9 @@ function RegisterReleases() {
   };
 
   return (
+    <>
+    <Navbar />
+    <div className="container">
     <Card title="Cadastro de Lançamentos">
       <div className="row">
         <div className="col-md-12">
@@ -250,6 +254,8 @@ function RegisterReleases() {
         </div>
       </div>
     </Card>
+    </div>
+    </>
   );
 }
 

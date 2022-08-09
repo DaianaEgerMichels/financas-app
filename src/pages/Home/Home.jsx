@@ -1,5 +1,6 @@
 import React , {useEffect, useState} from 'react'
 import api from '../../utils/api';
+import Navbar from '../../components/Navbar/Navbar';
 
 
 function Home() {
@@ -11,13 +12,15 @@ function Home() {
       api.get(`/api/usuarios/${usuarioLogado.id}/saldo`
     ).then(response => {
       setSaldo(response.data)
-    }).
-    catch(erro =>
+    }).catch(erro =>
       console.log(erro.response)
     )
   }, [saldo]);
 
   return (
+    <>
+    <Navbar />
+    <div className="container">
     <div className="jumbotron">
     <h1 className="display-3">Bem vindo!</h1>
     <p className="lead">Esse é seu sistema de finanças.</p>
@@ -37,6 +40,8 @@ function Home() {
         </a>
     </p>
 </div>
+</div>
+</>
   )
 }
 

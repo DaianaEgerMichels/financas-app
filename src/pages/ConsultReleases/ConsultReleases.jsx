@@ -8,6 +8,7 @@ import * as mensagens from "../../components/Toastr/toastr.js";
 import Swal from "sweetalert2";
 import api from "../../utils/api";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../../components/Navbar/Navbar";
 
 function ConsultReleases() {
   const navigate = useNavigate();
@@ -126,7 +127,28 @@ function ConsultReleases() {
       );
   };
 
+  const atualizarStatus = (lancamento, status)=>{
+    return api.put(`/${lancamento.id}/atualiza-status`, {status})
+    .then((response) => {
+      const indexLancamento = lancamentos.indexOf(lancamento);
+      if(indexLancamento !== -1){
+        lancamento['status'] = status;
+        lancamentos[indexLancamento] = lancamento;
+        setLancamentos({lancamento});
+      }
+      mensagens.mensagemSucesso("Status de Lançamento atualizado com sucesso!");
+    })
+    .catch(() =>
+      mensagens.mensagemAlerta(
+        "Houve um problema ao atualizar o status do lançamento!"
+      )
+    );
+  }
+
   return (
+    <>
+    <Navbar />
+    <div className="container">
     <Card title="Consulta Lançamentos">
       <div className="row">
         <div className="col-md-6">
@@ -182,11 +204,14 @@ function ConsultReleases() {
               lancamentos={lancamentos}
               deleteAction={handleDelete}
               editAction={editar}
+              alterarStatus = {atualizarStatus}
             ></LancamentosTable>
           </div>
         </div>
       </div>
     </Card>
+    </div>
+    </>
   );
 }
 
