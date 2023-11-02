@@ -1,11 +1,7 @@
 <h1 align="center">REACT - BOOTSTRAP - JS</h1>
 
 <p align="center">
-FRONTEND: desenvolvimento de app para a aplicação de finanças do curso de Spring Boot + React JS da Udemy.
-</p>
-
-<p align="center">
-<img src="http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge"/>
+FRONTEND: app development for finance application.
 </p>
 
 <p align="center">
